@@ -13,7 +13,8 @@ def main():
                     if s < 50:
                         get_specs(type_['key'], '/tech')
                         get_specs(type_['key'], '/sizes')
-                    print(type_['key'])
+                        print(type_['key'])
+                        break  # for now load only one type
 
 
 
