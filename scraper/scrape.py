@@ -5,17 +5,21 @@ import dataset
 db = dataset.connect('sqlite:///cars.db')
 
 def main():
-    for model in get_models():
-        for group in get_groups(model['key']):
-            for year in get_years(model['key'], group['key']):
-                for type_ in get_types(model['key'], group['key'], year['key']):
-                    s = db['specs'].count(type=type_['key'])
-                    if s < 50:
-                        get_specs(type_['key'], '/tech')
-                        get_specs(type_['key'], '/sizes')
-                        print(type_['key'])
-                        break  # for now load only one type
-
+    found_new = True
+    while found_new:
+        found_new = False
+        for model in get_models():
+            for group in get_groups(model['key']):
+                for year in get_years(model['key'], group['key']):
+                    for type_ in get_types(model['key'], group['key'], year['key']):
+                        s = db['specs'].count(type=type_['key'])
+                        if s < 50:
+                            get_specs(type_['key'], '/tech')
+                            get_specs(type_['key'], '/sizes')
+                            print(type_['key'])
+                            found_new = True
+                            break  # for now load only one type
+    print('all done')
 
 
 def get_models():
